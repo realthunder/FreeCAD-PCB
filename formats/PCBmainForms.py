@@ -614,14 +614,17 @@ class mainPCB(partsManaging):
             if r == 0:
                 continue
             
+            # It is very likely for a PCB track (path) to have the same width as the diameter of a via hole.
+            # And FreeCAD has trouble cuting with tangent faces. So we apply a slight disturbance (r+0.001) 
+            # to the hole radius. Maybe use random disturbance is better
             if Hmin == 0 and Hmax == 0:
-                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r))
+                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r+0.001))
             elif Hmin != 0 and Hmax == 0 and Hmin <= r * 2:
-                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r))
+                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r+0.001))
             elif Hmax != 0 and Hmin == 0 and r * 2 <= Hmax:
-                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r))
+                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r+0.001))
             elif Hmin <= r * 2 <= Hmax:
-                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r))
+                doc.PCB_Holes.addGeometry(Part.Circle(FreeCAD.Vector(x, y, 0.), FreeCAD.Vector(0, 0, 1), r+0.001))
             ####
             ##hole = [Part.Circle(FreeCAD.Vector(x, y), FreeCAD.Vector(0, 0, 1), r).toShape()]
             ##hole = Part.Wire(hole)
